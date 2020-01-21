@@ -332,19 +332,63 @@ que baseia-se na utilização de componentes individuais (objetos) que colaboram
 
 ## Os 4 pilares da Orientação a Objetos
 
-### Abstração
+## Abstração
 - Imaginar o objeto
     - Identidade única
     - Atributos
     - Métodos
 
-### Encapsulamento
+## Encapsulamento
 - Esconder as propriedades dos objetos para obter mais segurança.
 
-### Herança
-- Permite o reúso de código.
+Se refere a esconder os dados (atributos) dentro do objeto.
 
-### Polimorfismo
+Produz duas visões do objeto:
+- Visão Interna (COMO o objeto faz)
+- Visão Externa (O QUE o objeto faz)
+  - Exemplo:
+    - O funcionamento interno de um telefone é escondido (ou encapsulado) do usuário. Para o usuário realizar uma chamada telefônica (visão externa) ele não precisa conhecer os detalhes da eletrônica utilizados no telefone (visão interna)
+
+Em se tratando de classes, o em encapsulamento é obtido através da visibilidade, conhecida também como "modificadores de acesso".
+
+Os modificadores de acessos mais comuns são:
+- public / público: Representado por um sinal de mais "+" na notação UML. Elementos declarados como público podem ser acessados a partir de qualquer outra classe
+- private / privado: Representado por um sinal de menos "-" na notação UML. Elementos private só podem ser acessados pela própria classe
+- protected / protegido: Representado por um sinal de sustenido "#" na notação UML. Elementos protected só podem ser acessados pela própria classe e por suas descendentes
+
+## Herança
+  - Permite o reúso de código.
+
+  - Uma classe "herda" as propriedades e atributos de outra, a classe "pai" é denominada Super Classe, enquanto a "filha", que herda da Super Classe é a Sub Classe
+  ```
+  class Pai
+    attr_accessor :nome
+
+    def falar(texto = "Alô!")
+      texto
+    end
+  end
+
+  class Filha < Pai
+    
+  end
+  ```
+
+  - A sub classe pode usar todos os métodos e atributos da super classe
+  
+  ```
+  p = Pai.new
+  p.nome = "Rodrigo"
+  puts p.nome
+  puts p.falar
+
+  f = Filha.new
+  f.nome = "Isabela"
+  puts f.nome
+  puts f.falar("Hello!")
+  ```
+
+## Polimorfismo
 - É a capacidade de referenciar um objeto de várias formas diferentes.
 
 ## Classes
@@ -441,6 +485,11 @@ end
       attr_reader :nome
     ```
 
+    - Um único accessor pode definir mais de um atributo
+    ```
+      attr_accessor :nome, :cpf, :salario
+    ```
+
 - Construtor
   - O construtor é um método especial usado para construir o objeto a partir da classe
   - Declaração de um construtor com valores padrões
@@ -464,22 +513,6 @@ end
       humano1 = Pessoa.new("Rick Sanchez", 70)
     ```
 
-## Encapsulamento
-Se refere a esconder os dados (atributos) dentro do objeto.
-
-Produz duas visões do objeto:
-- Visão Interna (COMO o objeto faz)
-- Visão Externa (O QUE o objeto faz)
-  - Exemplo:
-    - O funcionamento interno de um telefone é escondido (ou encapsulado) do usuário. Para o usuário realizar uma chamada telefônica (visão externa) ele não precisa conhecer os detalhes da eletrônica utilizados no telefone (visão interna)
-
-Em se tratando de classes, o em encapsulamento é obtido através da visibilidade, conhecida também como "modificadores de acesso".
-
-Os modificadores de acessos mais comuns são:
-- public / público: Representado por um sinal de mais "+" na notação UML. Elementos declarados como público podem ser acessados a partir de qualquer outra classe
-- private / privado: Representado por um sinal de menos "-" na notação UML. Elementos private só podem ser acessados pela própria classe
-- protected / protegido: Representado por um sinal de sustenido "#" na notação UML. Elementos protected só podem ser acessados pela própria classe e por suas descendentes
-
 ## Objeto
 "Classes são fábricas de objetos"
 
@@ -490,4 +523,3 @@ Um objeto é capaz de armazenar estados através de seus atributos e reagir a me
 - Todo objeto pertence a uma determinada classe e possui atributos próprios.
 - Os atributos são mutáveis e podem receber diferentes valores de acordo com as características do objeto.
 - A criação de um objeto consiste em sua instanciação, segundo, “cada instância tem seus próprios valores de atributos, mas compartilha o nome e os comportamentos dos atributos com a outras instâncias da classe”.
-
