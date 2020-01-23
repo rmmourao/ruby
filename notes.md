@@ -1,5 +1,18 @@
 # Ruby
 
+## Variaveis
+  - Em Ruby, para declarar uma variável basta atribuir um valor
+  ```
+  var = "Variável"
+  ```
+  - Em Ruby as variáveis não são tipadas
+
+## Constantes
+  - Para declarar uma constante basta declarar uma variável com nome maiusculo
+  ```
+  CONST = "CONSTANTE"
+  ```
+
 ## Primitive Types
   - int (Interger/Fixnum)
     - 1
@@ -388,6 +401,81 @@ Os modificadores de acessos mais comuns são:
   puts f.falar("Hello!")
   ```
 
+### Method Overriding
+- É a capacidade que uma sub classe tem de alterar/redefinir um método herdado de uma super classe
+```
+class Calculadora
+  def somar(n1, n2)
+    n1 + n2
+  end
+end
+
+class CalculadoraDescricao
+  def somar(n1, n2)
+    "A soma é: #{n1 + n2}"
+  end
+end
+
+c = Calculadore.new
+puts c.somar(2, 3) # 5
+
+cd = Calculadore.new
+puts cd.somar(2, 3) # A soma é: 5
+```
+
+### Super
+- A sub classe altera o método da super classe, porém o comando super permite que o método da super classe seja chamado sem alteração
+```
+class Franquia
+  def descricao
+    "Franquia!"
+  end
+end
+
+class Franquiado < Franquia
+  def descricao
+    puts super
+    "Franquiado!"
+  end
+end
+
+f = Franquia.new
+puts f.descricao
+
+ff = Franquiado.new
+puts ff.descricao
+```
+
+- Super também pode ser usado com initializers (construtores)
+```
+class Conta
+  attr_reader :numero, :saldo
+
+  def initialize(numero, saldo = 0)
+    @numero = numero
+    @saldo = saldo
+  end
+end
+
+class ContaEspecial < Conta
+  attr_reader :limite_especial
+
+  def initialize(numero, saldo, limite_especial)
+    super(numero, saldo) # initialize da classe pai
+    @limite_especial = limite_especial
+  end
+end
+
+c = Conta.new("001", 100.00)
+puts c.numero
+puts c.saldo
+
+ce = ContaEspecial.new("002", 200.00, 1000.00)
+puts ce.numero
+puts ce.saldo
+puts ce.limite_especial
+```
+
 ## Polimorfismo
 - É a capacidade de referenciar um objeto de várias formas diferentes.
 
@@ -409,14 +497,31 @@ Através da definição de uma classe, descreve-se que **propriedades/atributos*
 ### Definição de classe
 - O padrão para nomenclatura de classes em Ruby é PascalCase
 ```
-class Conta
+class ContaCorrente
   
 end
 ```
 
 - Instanciação de classe
 ```
-contaCorrente = Conta.new
+conta = ContaCorrente.new
+```
+### Self
+- Self é uma palavra reservada que dá acesso ao objeto corrente
+
+- É parecido com classes estáticas no Java, é possivel utilizar um método sem precisar instânciar a classe à qual ele pertence
+```
+class Teste
+  def ola # Método de Instância
+    "Olá!"
+  end
+
+  def self.hello # Método de Classe
+    "Hello!"
+  end
+end
+
+puts Teste.hello
 ```
 
 ### Métodos
@@ -512,6 +617,20 @@ end
     ```
       humano1 = Pessoa.new("Rick Sanchez", 70)
     ```
+
+### Classe Constante
+- Se uma constante for definida em uma classe ela pode ser acessada sem instanciar a classe, como se fosse um atributi estátio em Java
+```
+class Teste
+  PI = 3.14
+  NOME_APP = "Sistema de CRM"
+  NOME_CLIENTE = "Fulano de Tal"
+end
+
+puts Teste::PI
+puts Teste::NOME_CLIENTE
+puts Teste::NOME_APP
+```
 
 ## Objeto
 "Classes são fábricas de objetos"
