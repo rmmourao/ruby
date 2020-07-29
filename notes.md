@@ -619,7 +619,7 @@ end
     ```
 
 ### Classe Constante
-- Se uma constante for definida em uma classe ela pode ser acessada sem instanciar a classe, como se fosse um atributi estátio em Java
+- Se uma constante for definida em uma classe ela pode ser acessada sem instanciar a classe, como se fosse um atributo estático em Java
 ```
 class Teste
   PI = 3.14
@@ -632,6 +632,10 @@ puts Teste::NOME_CLIENTE
 puts Teste::NOME_APP
 ```
 
+### Reabrindo Classes
+Também conhecido como Monkey Patch, consiste na possibilidade de modificar ou inserir novos métodos em uma classe. É necessário muito cuidado e atenção para com essas mudanças, pois é possível alterar métodos padrão do ruby.
+
+
 ## Objeto
 "Classes são fábricas de objetos"
 
@@ -642,3 +646,130 @@ Um objeto é capaz de armazenar estados através de seus atributos e reagir a me
 - Todo objeto pertence a uma determinada classe e possui atributos próprios.
 - Os atributos são mutáveis e podem receber diferentes valores de acordo com as características do objeto.
 - A criação de um objeto consiste em sua instanciação, segundo, “cada instância tem seus próprios valores de atributos, mas compartilha o nome e os comportamentos dos atributos com a outras instâncias da classe”.
+
+## Módulos
+São similares a classes em relação ao fato de que também armazenam uma coleção de métodos, constantes, outras definições de módulos e classes.
+- Não é possivel criar objetos baseados em módulos e nem criar módulos que herdam desse módulo.
+- Módulos são um bom lugar para armazenar constantes em um local centralizado.
+- Agem como namespace, permitindo que sejam definidos métodos cujos nomes não irão colidir com aqueles definidos em outras partes de um programa.
+- Permite compartilhar funcinalidades entre classes.
+```
+module Pagamento # Definição de um módulo
+  PI = 3.14
+
+  def pagar(bandeira, numero, valor)
+    "Pagandocom o cartão #{bandeira}, número #{numero}, o valor de R$ #{valor}.
+  end
+
+  class Visa
+    def
+      "Pagando..."
+    end
+  end
+end
+```
+```
+require_relative 'pagamento' # Para utilizar o módulo em outro arquivo
+
+include Pagamento # Inclui tudo do módulo pgamento nesse arquivo
+
+p = Pagamento::Visa.new # Trabalhando com classes
+puts p.pagando
+
+puts PI # Trabalhando com constantes
+
+puts "Digite a bandeira do cartão:"
+b = gets.chomp
+
+puts "Digite o número do cartão:"
+n = gets.chomp
+
+puts "Digite o valor da compra:"
+c = gets.chomp
+
+puts pagar(b, n, v) # Trabalhando com métodos
+
+```
+
+## Mixins
+Permite que façamos uma pseudo herança múltipla.
+```
+module A
+  def a1
+    puts "a1"
+  end
+  def a2
+    puts "a2"
+  end
+end
+```
+
+```
+module B
+  def b1
+    puts "b1"
+  end
+  def b2
+    puts "b2"
+  end
+end
+```
+
+```
+require_relative 'a'
+require_relative 'b'
+
+class Exermplo # Os dois módulos (A e B), são importados dentro da classe 
+  include A
+  include B
+
+  def ex1
+    puts "ex1"
+  end
+end
+```
+
+```
+require_relative 'exemplo' # A classe é importada e os métodos dos dois módulos podem ser usados junto com os métodos da classe, simulando uma herança multipla
+
+x = Exemplo.new
+
+x.a1
+x.a2
+
+x.b1
+x.b2
+
+x.ex1
+```
+
+## Polimorfismo vs Duck Typing
+"If it walks like a duck and quacks like a duck, I would call it a duck."
+Duck-Typing permite fazermos polimorfismo através de métodos com mesma assinatura.
+```
+class Pato
+  def quack!
+    "Quack! Quack!"
+  end
+end
+
+class PatoDoente
+  def quack!
+    "Queeeck..."
+  end
+end
+
+class Pessoa
+  def apertar_pato
+    pato.quack!
+  end
+end
+
+p1 = Pato.new
+p2 = PatoDoente.new
+
+p = Pessoa.new
+
+puts p.apertar_pato(p1) # "Quack! Quack!"
+puts p.apertar_pato(p2) # "Queeeck..."
+```
